@@ -3,44 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Přidat místo | EventZone</title>
+    <title>Upravit místo | EventZone</title>
 </head>
 <body style="background-color: #0c0c0c; color: #fff; font-family: sans-serif; margin: 0;">
     <%- include('partials/navbar') %>
 
     <div style="max-width: 500px; margin: 60px auto; padding: 35px; background: #1a1a1a; border-radius: 12px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
         <div style="margin-bottom: 25px;">
-            <a href="/locations" style="color: #888; text-decoration: none; font-size: 14px;">← Zpět na seznam míst</a>
-            <h2 style="color: #deff9a; margin-top: 15px; margin-bottom: 0; font-size: 28px; letter-spacing: 1px;">Nové místo konání</h2>
+            <a href="/locations" style="color: #888; text-decoration: none; font-size: 14px; transition: color 0.2s;">← Zpět na seznam míst</a>
+            <h2 style="color: #deff9a; margin-top: 15px; margin-bottom: 0; font-size: 28px; letter-spacing: 1px;">Upravit místo</h2>
         </div>
 
-        <form action="/add-location" method="POST">
+        <form action="/locations/<%= location._id %>/edit" method="POST">
             <div style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 8px; color: #b0b0b0; font-size: 14px;">Název místa</label>
-                <input type="text" name="name" placeholder="Např. Klub Fabrika" required 
+                <input type="text" name="name" value="<%= location.name %>" required 
                        style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; font-size: 15px;">
             </div>
 
             <div style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 8px; color: #b0b0b0; font-size: 14px;">Adresa</label>
-                <input type="text" name="address" placeholder="Např. Hlavní 123" required 
+                <input type="text" name="address" value="<%= location.address %>" required 
                        style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; font-size: 15px;">
             </div>
 
             <div style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 8px; color: #b0b0b0; font-size: 14px;">Město</label>
-                <input type="text" name="city" placeholder="Např. Holešov" required 
+                <input type="text" name="city" value="<%= location.city %>" required 
                        style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; font-size: 15px;">
             </div>
 
             <div style="margin-bottom: 30px;">
                 <label style="display: block; margin-bottom: 8px; color: #b0b0b0; font-size: 14px;">Maximální kapacita</label>
-                <input type="number" name="capacity" placeholder="Např. 300" required 
+                <input type="number" name="capacity" value="<%= location.capacity %>" required 
                        style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; font-size: 15px;">
             </div>
 
-            <button type="submit" style="width: 100%; padding: 14px; background: #deff9a; color: #121212; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px;">
-                Vytvořit místo
+            <button type="submit" style="width: 100%; padding: 14px; background: #ffca28; color: #121212; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; transition: background 0.2s;">
+                Uložit změny lokality
             </button>
         </form>
     </div>
