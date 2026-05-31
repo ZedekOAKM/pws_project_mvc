@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI);
-        console.log(`MongoDB připojeno: ${conn.connection.host}`);
+        console.log(`✅ MongoDB připojena: ${conn.connection.host}`);
     } catch (error) {
-        console.error(`Chyba připojení k databázi: ${error.message}`);
+        console.error(`❌ Chyba připojení k databázi: ${error.message}`);
         process.exit(1);
     }
 };
