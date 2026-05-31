@@ -5,16 +5,21 @@
     <title>Přihlášení | EventZone</title>
 </head>
 <body>
-    <h1>Přihlášení</h1>
-    <form action="/login" method="POST">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+    <%- include('partials/navbar') %>
 
-        <label>Heslo:</label><br>
-        <input type="password" name="password" required><br><br>
+    <div style="max-width: 400px; margin: 80px auto; padding: 30px; background: #1a1a1a; border-radius: 12px; border: 1px solid #333;">
+        <h2 style="color: #deff9a; margin-top: 0; margin-bottom: 25px; text-align: center;">Přihlášení do systému</h2>
+        
+        <form action="/login" method="POST">
+            <label style="display: block; margin-bottom: 8px; color: #b0b0b0;">Emailová adresa</label>
+            <input type="email" name="email" required style="width: 100%; padding: 10px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; margin-bottom: 20px;">
 
-        <button type="submit">Přihlásit se</button>
-    </form>
-    <p>Nemáš účet? <a href="/register">Registrovat se</a></p>
+            <label style="display: block; margin-bottom: 8px; color: #b0b0b0;">Heslo</label>
+            <input type="password" name="password" required style="width: 100%; padding: 10px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; margin-bottom: 25px;">
+
+            <button type="submit" style="width: 100%; padding: 12px; background: #deff9a; color: #121212; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px;">Přihlásit se</button>
+        </form>
+        <p style="text-align: center; margin-top: 20px; color: #888; font-size: 14px;">Nemáš účet? <a href="/register" style="color: #deff9a; text-decoration: none;">Registruj se</a></p>
+    </div>
 </body>
 </html>

@@ -2,24 +2,49 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Seznam míst | EventZone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Místa konání | EventZone</title>
 </head>
 <body>
-    <h1>Místa konání akcí</h1>
-    <a href="/">Domů</a> | <a href="/add-location">Přidat nové místo (jen Admin/Organizátor)</a>
-    <hr>
+    <%- include('partials/navbar') %>
 
-    <% if (locations.length === 0) { %>
-        <p>V databázi zatím nejsou žádná místa. Buď první a nějaké přidej!</p>
-    <% } else { %>
-        <ul>
-            <% locations.forEach(location => { %>
-                <li>
-                    <strong><%= location.name %></strong> – <%= location.address %>, <%= location.city %> 
-                    (Kapacita: <%= location.capacity %> lidí)
-                </li>
-            <% }) %>
-        </ul>
-    <% } %>
+    <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+            <h1 style="color: #deff9a; margin: 0; font-size: 32px; letter-spacing: 1px;">Místa konání akcí</h1>
+            
+            <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
+                <a href="/add-location" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; transition: background 0.2s;">
+                    + Nové místo
+                </a>
+            <% } %>
+        </div>
+
+        <% if (locations.length === 0) { %>
+            <div style="text-align: center; padding: 50px; background: #1a1a1a; border-radius: 12px; border: 1px solid #333;">
+                <p style="color: #888; font-size: 18px; margin: 0;">V databázi zatím nejsou žádná místa. Buď první a nějaké přidej!</p>
+            </div>
+        <% } else { %>
+            <div style="display: flex; flex-wrap: wrap; gap: 25px;">
+                <% locations.forEach(location => { %>
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 25px; width: calc(33.333% - 17px); min-width: 280px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                        <div>
+                            <h3 style="color: #deff9a; margin-top: 0; margin-bottom: 15px; font-size: 22px; font-weight: 600;"><%= location.name %></h3>
+                            
+                            <p style="color: #b0b0b0; margin: 8px 0; font-size: 15px; display: flex; align-items: center; gap: 8px;">
+                                📍 <span><%= location.address %>, <%= location.city %></span>
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #2a2a2a; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #888; font-size: 14px;">Max. kapacita:</span>
+                            <span style="background: #2a2a2a; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 14px; font-weight: bold;">
+                                <%= location.capacity %> lidí
+                            </span>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

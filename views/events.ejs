@@ -2,32 +2,76 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seznam akcí | EventZone</title>
 </head>
 <body>
-    <h1>Nadcházející akce</h1>
-    <a href="/">Domů</a> | <a href="/add-event">Vytvořit novou akci</a>
-    <hr>
+    <%- include('partials/navbar') %>
 
-    <% if (events.length === 0) { %>
-        <p>Zatím nebyly vytvořeny žádné akce.</p>
-    <% } else { %>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <% events.forEach(event => { %>
-                <div style="border: 1px solid #ccc; padding: 15px; width: 300px; border-radius: 8px;">
-                    <img src="<%= event.image %>" alt="Plakát" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;">
-                    
-                    <h2><%= event.title %></h2>
-                    <p><%= event.description %></p>
-                    <p>📅 <strong>Datum:</strong> <%= new Date(event.date).toLocaleDateString('cs-CZ') %></p>
-                    
-                    <p>📍 <strong>Místo:</strong> <%= event.location ? event.location.name : 'Neznámé místo' %> (<%= event.location ? event.location.city : '' %>)</p>
-                    
-                    <p>👥 <strong>Kapacita:</strong> <%= event.maxAttendees %> lidí</p>
-                    <p>👤 <strong>Organizátor:</strong> <%= event.organizer ? event.organizer.username : 'Neznámý' %></p>
-                </div>
-            <% }) %>
+    <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+            <h1 style="color: #deff9a; margin: 0; font-size: 32px; letter-spacing: 1px;">Nadcházející akce</h1>
+            
+            <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
+                <a href="/add-event" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
+                    + Vytvořit akci
+                </a>
+            <% } %>
         </div>
-    <% } %>
+
+        <% if (events.length === 0) { %>
+            <div style="text-align: center; padding: 50px; background: #1a1a1a; border-radius: 12px; border: 1px solid #333;">
+                <p style="color: #888; font-size: 18px; margin: 0;">Zatím nebyly vytvořeny žádné akce.</p>
+            </div>
+        <% } else { %>
+            <div style="display: flex; flex-wrap: wrap; gap: 25px;">
+                <% events.forEach(event => { %>
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; width: calc(33.333% - 17px); min-width: 290px; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                        
+                        <div>
+                            <div style="position: relative; width: 100%; height: 200px; background: #222;">
+                                <img src="<%= event.image %>" alt="Plakát" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            
+                            <div style="padding: 20px;">
+                                <h2 style="color: #deff9a; margin-top: 0; margin-bottom: 10px; font-size: 22px; font-weight: 600;"><%= event.title %></h2>
+                                <p style="color: #a0a0a0; font-size: 14px; line-height: 1.5; margin-bottom: 20px; min-height: 42px;"><%= event.description %></p>
+                                
+                                <div style="font-size: 14px; color: #b0b0b0; display: flex; flex-direction: column; gap: 8px;">
+                                    <div>📅 <strong style="color: #fff;">Datum:</strong> <%= new Date(event.date).toLocaleDateString('cs-CZ') %></div>
+                                    <div>📍 <strong style="color: #fff;">Místo:</strong> <%= event.location ? event.location.name : 'Neznámé místo' %> (<%= event.location ? event.location.city : '' %>)</div>
+                                    <div>👥 <strong style="color: #fff;">Kapacita:</strong> <%= event.maxAttendees %> lidí</div>
+                                    <div style="color: #666; font-size: 13px; margin-top: 5px;">Organizuje: <%= event.organizer ? event.organizer.username : 'Neznámý' %></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 15px 20px 20px 20px; border-top: 1px solid #2a2a2a; background: #161616;">
+                            <% if (user) { %>
+                                <div style="display: flex; gap: 10px;">
+                                    <form action="/events/<%= event._id %>/attend" method="POST" style="flex: 1;">
+                                        <button type="submit" style="width: 100%; background-color: #2e7d32; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
+                                            ✔ Jdu tam
+                                        </button>
+                                    </form>
+
+                                    <form action="/events/<%= event._id %>/unattend" method="POST" style="flex: 1;">
+                                        <button type="submit" style="width: 100%; background-color: #c62828; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
+                                            ❌ Nejedu
+                                        </button>
+                                    </form>
+                                </div>
+                            <% } else { %>
+                                <p style="font-size: 13px; color: #888; text-align: center; margin: 0; padding: 5px 0;">
+                                    Pro přihlášení se musíte <a href="/login" style="color: #deff9a; text-decoration: none;">přihlásit</a>.
+                                </p>
+                            <% } %>
+                        </div>
+
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

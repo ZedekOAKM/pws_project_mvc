@@ -1,0 +1,82 @@
+<style>
+    /* Moderní temný design pro EventZone */
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding-top: 70px; /* Aby nám menu nepřekrývalo obsah */
+    }
+    .navbar {
+        background-color: #1a1a1a;
+        border-bottom: 1px solid #333;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 30px;
+        height: 60px;
+        z-index: 1000;
+    }
+    .navbar-brand {
+        color: #deff9a;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+    .navbar-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+    .navbar-links a {
+        color: #b0b0b0;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.2s;
+    }
+    .navbar-links a:hover {
+        color: #deff9a;
+    }
+    .btn-auth {
+        background-color: #deff9a;
+        color: #121212 !important;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+    .btn-auth:hover {
+        background-color: #c5eb7f !important;
+    }
+    .user-info {
+        font-size: 14px;
+        color: #888;
+        border-right: 1px solid #333;
+        padding-right: 15px;
+    }
+</style>
+
+<nav class="navbar">
+    <a href="/" class="navbar-brand">EVENTZONE 🚀</a>
+    <div class="navbar-links">
+        <a href="/events">Akce</a>
+        <a href="/locations">Místa konání</a>
+
+        <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
+            <a href="/add-event" style="color: #ffca28;">+ Vytvořit akci</a>
+            <a href="/add-location" style="color: #ffca28;">+ Přidat místo</a>
+        <% } %>
+
+        <% if (user) { %>
+            <span class="user-info">Uživatel: <strong><%= user.username %></strong> (<%= user.role %>)</span>
+            <a href="/logout">Odhlásit se</a>
+        <% } else { %>
+            <a href="/login">Přihlášení</a>
+            <a href="/register" class="btn-auth">Registrace</a>
+        <% } %>
+    </div>
+</nav>
