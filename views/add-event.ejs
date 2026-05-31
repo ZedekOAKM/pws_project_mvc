@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Vytvořit akci | EventZone</title>
+</head>
+<body>
+    <h1>Vytvořit novou akci</h1>
+    <form action="/add-event" method="POST" enctype="multipart/form-data">
+        <label>Název akce:</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>Popis:</label><br>
+        <textarea name="description" required></textarea><br><br>
+
+        <label>Datum konání:</label><br>
+        <input type="date" name="date" required><br><br>
+
+        <label>Místo konání:</label><br>
+        <select name="location" required>
+            <% locations.forEach(loc => { %>
+                <option value="<%= loc._id %>"><%= loc.name %> (<%= loc.city %>)</option>
+            <% }) %>
+        </select><br><br>
+
+        <label>Kapacita:</label><br>
+        <input type="number" name="maxAttendees" required><br><br>
+
+        <label>Plakát (obrázek):</label><br>
+        <input type="file" name="image" accept="image/*"><br><br>
+
+        <button type="submit">Vytvořit akci</button>
+    </form>
+</body>
+</html>

@@ -5,6 +5,9 @@ const path = require('path');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes'); 
 const locationRoutes = require('./routes/locationRoutes');
+const multer = require('multer');
+const eventRoutes = require('./routes/eventRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,8 +38,24 @@ app.use((req, res, next) => {
 });
 
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); 
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
 app.use('/', authRoutes);
 app.use('/', locationRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/', eventRoutes)
+app.use('/', eventRoutes);
+app.use('/', attendanceRoutes);
 
 
 app.get('/', (req, res) => {

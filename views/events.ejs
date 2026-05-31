@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Seznam akcí | EventZone</title>
+</head>
+<body>
+    <h1>Nadcházející akce</h1>
+    <a href="/">Domů</a> | <a href="/add-event">Vytvořit novou akci</a>
+    <hr>
+
+    <% if (events.length === 0) { %>
+        <p>Zatím nebyly vytvořeny žádné akce.</p>
+    <% } else { %>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <% events.forEach(event => { %>
+                <div style="border: 1px solid #ccc; padding: 15px; width: 300px; border-radius: 8px;">
+                    <img src="<%= event.image %>" alt="Plakát" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;">
+                    
+                    <h2><%= event.title %></h2>
+                    <p><%= event.description %></p>
+                    <p>📅 <strong>Datum:</strong> <%= new Date(event.date).toLocaleDateString('cs-CZ') %></p>
+                    
+                    <p>📍 <strong>Místo:</strong> <%= event.location ? event.location.name : 'Neznámé místo' %> (<%= event.location ? event.location.city : '' %>)</p>
+                    
+                    <p>👥 <strong>Kapacita:</strong> <%= event.maxAttendees %> lidí</p>
+                    <p>👤 <strong>Organizátor:</strong> <%= event.organizer ? event.organizer.username : 'Neznámý' %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</body>
+</html>
