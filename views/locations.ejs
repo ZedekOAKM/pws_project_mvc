@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Seznam míst | EventZone</title>
+</head>
+<body>
+    <h1>Místa konání akcí</h1>
+    <a href="/">Domů</a> | <a href="/add-location">Přidat nové místo (jen Admin/Organizátor)</a>
+    <hr>
+
+    <% if (locations.length === 0) { %>
+        <p>V databázi zatím nejsou žádná místa. Buď první a nějaké přidej!</p>
+    <% } else { %>
+        <ul>
+            <% locations.forEach(location => { %>
+                <li>
+                    <strong><%= location.name %></strong> – <%= location.address %>, <%= location.city %> 
+                    (Kapacita: <%= location.capacity %> lidí)
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+</body>
+</html>

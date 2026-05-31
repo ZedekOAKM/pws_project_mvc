@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Přidat místo | EventZone</title>
+</head>
+<body>
+    <h1>Přidat nové místo konání</h1>
+    <a href="/locations">← Zpět na seznam míst</a>
+    <hr>
+
+    <form action="/add-location" method="POST">
+        <label>Název místa (např. Klub Fléda, O2 Arena):</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>Adresa (ulice a číslo popisné):</label><br>
+        <input type="text" name="address" required><br><br>
+
+        <label>Město:</label><br>
+        <input type="text" name="city" required><br><br>
+
+        <label>Maximální kapacita lidí:</label><br>
+        <input type="number" name="capacity" required><br><br>
+
+        <button type="submit">Uložit místo do databáze</button>
+    </form>
+</body>
+</html>
