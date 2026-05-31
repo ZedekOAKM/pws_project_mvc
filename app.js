@@ -1,12 +1,12 @@
-require('dotenv').config();
+require('dotenv').config(); 
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
+const path = require('path'); 
 const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 
 connectDB();
 
@@ -20,10 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    resave: false, 
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
@@ -31,8 +30,11 @@ app.use(session({
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
-    next();
+    next(); 
 });
+
+
+app.use('/', authRoutes);
 
 
 app.get('/', (req, res) => {
