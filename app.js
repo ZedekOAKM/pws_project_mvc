@@ -38,7 +38,7 @@ app.use('/', authRoutes);
 
 
 app.get('/', (req, res) => {
-    res.send('<h1>EventZone backend je připraven! 🚀</h1>');
+    res.render('index'); 
 });
 
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrace | EventZone</title>
+</head>
+<body>
+    <h1>Registrace do EventZone</h1>
+    <form action="/register" method="POST">
+        <label>Uživatelské jméno:</label><br>
+        <input type="text" name="username" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>Heslo:</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit">Registrovat se</button>
+    </form>
+    <p>Už máš účet? <a href="/login">Přihlásit se</a></p>
+</body>
+</html>

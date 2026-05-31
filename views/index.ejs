@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>EventZone</title>
+</head>
+<body>
+    <h1>Vítej na EventZone! 🚀</h1>
+
+    <% if (user) { %>
+        <p>Jste přihlášen jako: <strong><%= user.username %></strong> (Role: <%= user.role %>)</p>
+        <a href="/logout">Odhlásit se</a>
+    <% } else { %>
+        <p>Nejste přihlášen/a.</p>
+        <a href="/login">Přihlásit se</a> | <a href="/register">Registrovat se</a>
+    <% } %>
+</body>
+</html>

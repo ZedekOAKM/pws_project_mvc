@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs'); // knihovna sifrovani hesel
 
 
 exports.getRegister = (req, res) => {
-    res.send('Tady bude registrační formulář (EJS šablona).');
+    res.render('register'); // Říká Expressu: "Vezmi soubor views/register.ejs a pošli ho do prohlížeče"
 };
 
 
@@ -38,7 +38,7 @@ exports.postRegister = async (req, res) => {
 
 
 exports.getLogin = (req, res) => {
-    res.send('Tady bude přihlašovací formulář (EJS šablona).');
+    res.render('login'); // Vezmi soubor views/login.ejs
 };
 
 
