@@ -1,4 +1,3 @@
-// IMPORTY MODELŮ - Klíčové pro to, aby funkce věděly, s čím pracují!
 const Event = require('../models/Event');
 const Location = require('../models/Location');
 const Attendance = require('../models/Attendance');
@@ -32,7 +31,7 @@ exports.postAddEvent = async (req, res) => {
             maxAttendees,
             location,
             image: imagePath,
-            // === OPRAVA TADY: Čteme z req.session.user.id ===
+            
             organizer: req.session.user.id 
         });
 
@@ -47,10 +46,9 @@ exports.postAddEvent = async (req, res) => {
     }
 };
 
-// ====== R = READ (Zobrazení seznamu akcí) ======
+// ====== R = READ  ======
 exports.getEvents = async (req, res) => {
     try {
-        // Pomocí populate vytáhneme rovnou data o lokaci a organizátorovi
         const events = await Event.find().populate('location').populate('organizer');
         res.render('events', { events });
     } catch (error) {
@@ -60,7 +58,7 @@ exports.getEvents = async (req, res) => {
     }
 };
 
-// ====== U = UPDATE (Zobrazení editačního formuláře) ======
+// ====== U = UPDATE ======
 exports.getEditEvent = async (req, res) => {
     try {
         const eventId = req.params.id;
@@ -80,7 +78,7 @@ exports.getEditEvent = async (req, res) => {
     }
 };
 
-// ====== U = UPDATE (Uložení upravených dat) ======
+// ====== U = UPDATE ======
 exports.postEditEvent = async (req, res) => {
     try {
         const eventId = req.params.id;
@@ -115,7 +113,7 @@ exports.postEditEvent = async (req, res) => {
     }
 };
 
-// ====== D = DELETE (Mazání akce) ======
+// ====== D = DELETE  ======
 exports.deleteEvent = async (req, res) => {
     try {
         const eventId = req.params.id;

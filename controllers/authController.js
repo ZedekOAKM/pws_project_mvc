@@ -26,7 +26,7 @@ exports.postRegister = async (req, res) => {
 
         await newUser.save(); 
         
-        // Úspěšná registrace
+        
         req.session.notification = { type: 'success', text: 'Účet úspěšně vytvořen! Můžeš se přihlásit. 🎉' };
         res.redirect('/login');
 
@@ -63,7 +63,7 @@ exports.postLogin = async (req, res) => {
             role: user.role
         };
 
-        // Úspěšné přihlášení
+        
         req.session.notification = { type: 'success', text: `Vítej zpět, ${user.username}! 👋` };
         res.redirect('/');
 

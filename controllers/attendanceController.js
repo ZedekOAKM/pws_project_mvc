@@ -26,7 +26,7 @@ exports.attendEvent = async (req, res) => {
 
         await newAttendance.save();
         
-        // Úspěšné přihlášení
+        
         req.session.notification = { type: 'success', text: 'Úspěšně jsi se přihlásil(a) na akci! 🎉' };
         res.redirect('/events');
     } catch (error) {
