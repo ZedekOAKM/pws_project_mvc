@@ -78,5 +78,11 @@
             <a href="/login">Přihlášení</a>
             <a href="/register" class="btn-auth">Registrace</a>
         <% } %>
+
+  <% if (user && user.role === 'admin') { %>
+    <a href="/admin/users" style="color: #ffca28; text-decoration: none; font-weight: bold; margin-right: 15px;">
+        ⚙️ Správa uživatelů
+    </a>
+<% } %>
     </div>
 </nav>

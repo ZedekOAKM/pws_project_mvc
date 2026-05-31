@@ -8,6 +8,7 @@ const locationRoutes = require('./routes/locationRoutes');
 const multer = require('multer');
 const eventRoutes = require('./routes/eventRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -60,6 +61,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/', eventRoutes)
 app.use('/', eventRoutes);
 app.use('/', attendanceRoutes);
+app.use(adminRoutes);
 
 
 app.get('/', (req, res) => {
