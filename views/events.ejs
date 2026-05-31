@@ -9,9 +9,22 @@
     <%- include('partials/navbar') %>
 
     <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; gap: 15px;">
             <h1 style="color: #deff9a; margin: 0; font-size: 32px; letter-spacing: 1px;">Nadcházející akce</h1>
-            
+
+            <form method="GET" action="/events" style="display: flex; gap: 10px; align-items: center;">
+                <label style="color: #ccc; font-size: 14px;">
+                    Filtr:
+                    <select name="status" onchange="this.form.submit()" style="margin-left: 8px; padding: 8px 10px; border-radius: 6px; border: 1px solid #444; background: #121212; color: #fff;">
+                        <option value="all" <%= selectedFilter === 'all' ? 'selected' : '' %>>Všechny akce</option>
+                        <% if (user) { %>
+                            <option value="attending" <%= selectedFilter === 'attending' ? 'selected' : '' %>>Jdu tam</option>
+                            <option value="not-attending" <%= selectedFilter === 'not-attending' ? 'selected' : '' %>>Nejdu</option>
+                        <% } %>
+                    </select>
+                </label>
+            </form>
+
             <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
                 <a href="/events/add" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
                     + Vytvořit akci
@@ -49,17 +62,19 @@
                         <div style="padding: 15px 20px 20px 20px; border-top: 1px solid #2a2a2a; background: #161616;">
                             <% if (user) { %>
                                 <div style="display: flex; gap: 10px;">
-                                    <form action="/events/<%= event._id %>/attend" method="POST" style="flex: 1;">
-                                        <button type="submit" style="width: 100%; background-color: #2e7d32; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
-                                            ✔ Jdu tam
-                                        </button>
-                                    </form>
-
-                                    <form action="/events/<%= event._id %>/unattend" method="POST" style="flex: 1;">
-                                        <button type="submit" style="width: 100%; background-color: #c62828; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
-                                            ❌ Nejedu
-                                        </button>
-                                    </form>
+                                    <% if (event.isAttending) { %>
+                                        <form action="/events/<%= event._id %>/unattend" method="POST" style="flex: 1;">
+                                            <button type="submit" style="width: 100%; background-color: #c62828; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
+                                                ❌ Nejedu
+                                            </button>
+                                        </form>
+                                    <% } else { %>
+                                        <form action="/events/<%= event._id %>/attend" method="POST" style="flex: 1;">
+                                            <button type="submit" style="width: 100%; background-color: #2e7d32; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
+                                                ✔ Jdu tam
+                                            </button>
+                                        </form>
+                                    <% } %>
                                 </div>
                             <% } else { %>
                                 <p style="font-size: 13px; color: #888; text-align: center; margin: 0; padding: 5px 0;">

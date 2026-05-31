@@ -19,7 +19,7 @@ exports.postAddEvent = async (req, res) => {
     try {
         const { title, description, date, maxAttendees, location } = req.body;
         
-        let imagePath = '/uploads/default-poster.jpg';
+        let imagePath = '/uploads/default_obrazek.png';
         if (req.file) {
             imagePath = `/uploads/${req.file.filename}`;
         }
@@ -49,8 +49,35 @@ exports.postAddEvent = async (req, res) => {
 // ====== R = READ  ======
 exports.getEvents = async (req, res) => {
     try {
-        const events = await Event.find().populate('location').populate('organizer');
-        res.render('events', { events });
+        const status = req.query.status || 'all';
+        const userId = req.session.user?.id;
+        let selectedFilter = 'all';
+
+        let attendingEventIds = [];
+        if (userId) {
+            const attendances = await Attendance.find({ user: userId }).select('event');
+            attendingEventIds = attendances.map(att => att.event.toString());
+            selectedFilter = status;
+        }
+
+        const query = {};
+        if (userId && status === 'attending') {
+            query._id = { $in: attendingEventIds };
+        } else if (userId && status === 'not-attending') {
+            query._id = { $nin: attendingEventIds };
+        }
+
+        let events = await Event.find(query).populate('location').populate('organizer');
+
+        if (userId) {
+            events = events.map(event => {
+                const eventObj = event.toObject();
+                eventObj.isAttending = attendingEventIds.includes(event._id.toString());
+                return eventObj;
+            });
+        }
+
+        res.render('events', { events, selectedFilter });
     } catch (error) {
         console.error(error);
         req.session.notification = { type: 'error', text: 'Chyba při načítání akcí.' };
