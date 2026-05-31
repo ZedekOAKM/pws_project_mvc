@@ -36,3 +36,7 @@ cd pws_project_mvc
 
 # Instalace potřebných balíčků (stáhne node_modules)
 npm install
+
+
+# Vývojové spuštění (automatický restart při změně kódu)
+npm run dev
