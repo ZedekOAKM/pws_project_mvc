@@ -40,3 +40,17 @@ npm install
 
 # Vývojové spuštění (automatický restart při změně kódu)
 npm run dev
+
+
+
+# Konfigurace databáze
+
+Aby bylo hodnocení projektu co nejjednodušší, je pro Vás kompletně připravena a nakonfigurována **cloudová databáze na MongoDB Atlas**, která již obsahuje testovací data (místa konání a nadcházející akce). Nemusíte tak lokálně nic instalovat ani importovat.
+
+V kořenovém adresáři projektu stačí vytvořit soubor `.env` a vložit do něj následující konfiguraci:
+
+```env
+PORT=3000
+SESSION_SECRET=skola_eventzone_tajne_heslo_123
+# Připravený přístupový řetězec ke cloudové databázi (IP přístup je povolen pro kohokoliv):
+MONGO_URI=mongodb+srv://ucitel:oakm@eventzone.1bpawc5.mongodb.net/?appName=EventZone
