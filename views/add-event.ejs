@@ -56,16 +56,20 @@
                 
                 <p style="color: #666; font-size: 13px; margin-top: 0; margin-bottom: 15px; line-height: 1.4;">
                     Nahrajte úvodní grafiku nebo plakát, který se zobrazí na hlavní kartě této akce. <br>
-                    Podporovány jsou běžné formáty (JPG, PNG).
+                    Podporovány jsou běžné formáty (JPG, PNG). Pokud nic nevyberete, použije se výchozí obrázek.
                 </p>
                 
+                <div style="margin-bottom: 15px;">
+                    <img id="poster-preview" src="/uploads/default_obrazek.png" alt="Výchozí plakát" style="width: 100%; max-width: 320px; border-radius: 8px; border: 1px solid #333;">
+                </div>
+
                 <input type="file" name="image" id="file-upload" accept="image/*" style="display: none;" onchange="updateFileName()">
                 
                 <label for="file-upload" style="display: inline-block; padding: 10px 20px; background: #2a2a2a; border: 1px solid #555; border-radius: 6px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
                     📁 Vybrat obrázek
                 </label>
                 
-                <div id="file-name" style="margin-top: 10px; color: #888; font-size: 13px;">Žádný soubor nevybrán</div>
+                <div id="file-name" style="margin-top: 10px; color: #888; font-size: 13px;">Žádný soubor nevybrán – použije se výchozí obrázek.</div>
             </div>
 
             <button type="submit" style="width: 100%; padding: 14px; background: #deff9a; color: #121212; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; transition: background 0.2s;">
@@ -78,12 +82,22 @@
         function updateFileName() {
             const input = document.getElementById('file-upload');
             const output = document.getElementById('file-name');
+            const preview = document.getElementById('poster-preview');
+            const defaultSrc = '/uploads/default_obrazek.png';
             if (input.files && input.files.length > 0) {
-                output.innerText = 'Vybráno: ' + input.files[0].name;
+                const file = input.files[0];
+                output.innerText = 'Vybráno: ' + file.name;
                 output.style.color = '#deff9a';
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
             } else {
-                output.innerText = 'Žádný soubor nevybrán';
+                output.innerText = 'Žádný soubor nevybrán – použije se výchozí obrázek.';
                 output.style.color = '#888';
+                preview.src = defaultSrc;
             }
         }
     </script>
