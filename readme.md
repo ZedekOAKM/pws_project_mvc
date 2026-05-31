@@ -1,6 +1,6 @@
 # 🚀 EventZone – Rezervační systém pro kulturní akce
 
-Webová aplikace postavená na architektuře **MVC** (Model-View-Controller) v prostředí **Node.js / Express**, která slouží ke správě a rezervaci kulturních, sportovních a společenských akcí. Projekt plně splňuje požadavky pro týmovou práci (3 členové) včetně implementace 4 databázových modelů a 3 uživatelských rolí.
+Webová aplikace postavená na architektuře **MVC** (Model-View-Controller) v prostředí **Node.js / Express**, která slouží ke správě a rezervaci kulturních, sportovních a společenských akcí.
 
 ---
 
@@ -29,7 +29,7 @@ Níže je popsán postup pro lokální zprovoznění aplikace po stažení z Git
 Otevřete terminál v adresáři, kam chcete projekt umístit, a spusťte:
 ```bash
 # Klonování projektu
-git clone <URL_VÁŠHO_REPOZITÁŘE>
+git clone <URL_REPOZITÁŘE>
 
 # Přesun do složky projektu
 cd pws_project_mvc
