@@ -9,7 +9,8 @@ exports.getLocations = async (req, res) => {
         res.render('locations', { locations });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při načítání míst konání.');
+        req.session.notification = { type: 'error', text: 'Chyba při načítání míst konání.' };
+        res.redirect('/');
     }
 };
 
@@ -26,10 +27,14 @@ exports.postAddLocation = async (req, res) => {
         });
 
         await newLocation.save();
+
+        // Úspěšné přidání místa
+        req.session.notification = { type: 'success', text: 'Nové místo konání bylo úspěšně přidáno! 📍' };
         res.redirect('/locations');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při vytváření místa konání.');
+        req.session.notification = { type: 'error', text: 'Chyba při vytváření místa konání.' };
+        res.redirect('/locations');
     }
 };
 
@@ -40,13 +45,15 @@ exports.getEditLocation = async (req, res) => {
         const location = await Location.findById(locationId);
 
         if (!location) {
-            return res.status(404).send('Místo konání nebylo nalezeno.');
+            req.session.notification = { type: 'error', text: 'Místo konání nebylo nalezeno.' };
+            return res.redirect('/locations');
         }
 
         res.render('edit-location', { location });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při načítání editace místa.');
+        req.session.notification = { type: 'error', text: 'Chyba při načítání editace místa.' };
+        res.redirect('/locations');
     }
 };
 
@@ -63,10 +70,13 @@ exports.postEditLocation = async (req, res) => {
             capacity
         });
 
+        // Úspěšná editace místa
+        req.session.notification = { type: 'success', text: 'Změny místa konání byly úspěšně uloženy. ✏️' };
         res.redirect('/locations');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při ukládání úprav místa.');
+        req.session.notification = { type: 'error', text: 'Chyba při ukládání úprav místa.' };
+        res.redirect('/locations');
     }
 };
 
@@ -75,22 +85,22 @@ exports.deleteLocation = async (req, res) => {
     try {
         const locationId = req.params.id;
 
-        // 1. Najdeme akce navázané na toto místo
+       
         const linkedEvents = await Event.find({ location: locationId });
         const eventIds = linkedEvents.map(event => event._id);
 
-        // 2. Smažeme přihlášky na tyto akce
+      
         await Attendance.deleteMany({ event: { $in: eventIds } });
 
-        // 3. Smažeme akce na tomto místě
         await Event.deleteMany({ location: locationId });
 
-        // 4. Smažeme místo samotné
         await Location.findByIdAndDelete(locationId);
 
+        req.session.notification = { type: 'info', text: 'Místo včetně všech navázaných akcí a přihlášek bylo smazáno. 🗑️' };
         res.redirect('/locations');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při mazání místa konání.');
+        req.session.notification = { type: 'error', text: 'Chyba při mazání místa konání.' };
+        res.redirect('/locations');
     }
 };

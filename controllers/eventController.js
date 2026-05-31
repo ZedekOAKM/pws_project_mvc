@@ -10,7 +10,8 @@ exports.getAddEvent = async (req, res) => {
         res.render('add-event', { locations });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při načítání formuláře.');
+        req.session.notification = { type: 'error', text: 'Chyba při načítání formuláře pro novou akci.' };
+        res.redirect('/events');
     }
 };
 
@@ -35,10 +36,14 @@ exports.postAddEvent = async (req, res) => {
         });
 
         await newEvent.save();
+        
+        
+        req.session.notification = { type: 'success', text: 'Nvá akce byla úspěšně publikována! 🚀' };
         res.redirect('/events');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při vytváření akce.');
+        req.session.notification = { type: 'error', text: 'Chyba při vytváření akce.' };
+        res.redirect('/events');
     }
 };
 
@@ -50,7 +55,8 @@ exports.getEvents = async (req, res) => {
         res.render('events', { events });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při načítání akcí.');
+        req.session.notification = { type: 'error', text: 'Chyba při načítání akcí.' };
+        res.redirect('/');
     }
 };
 
@@ -62,13 +68,15 @@ exports.getEditEvent = async (req, res) => {
         const locations = await Location.find(); 
 
         if (!event) {
-            return res.status(404).send('Akce nebyla nalezena.');
+            req.session.notification = { type: 'error', text: 'Akce nebyla nalezena.' };
+            return res.redirect('/events');
         }
 
         res.render('edit-event', { event, locations });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při načítání editace akce.');
+        req.session.notification = { type: 'error', text: 'Chyba při načítání editace akce.' };
+        res.redirect('/events');
     }
 };
 
@@ -80,10 +88,11 @@ exports.postEditEvent = async (req, res) => {
 
         const event = await Event.findById(eventId);
         if (!event) {
-            return res.status(404).send('Akce nebyla nalezena.');
+            req.session.notification = { type: 'error', text: 'Akce nebyla nalezena.' };
+            return res.redirect('/events');
         }
 
-        // Aktualizujeme data v objektu
+        
         event.title = title;
         event.description = description;
         event.date = date;
@@ -95,10 +104,14 @@ exports.postEditEvent = async (req, res) => {
         }
 
         await event.save();
+        
+        
+        req.session.notification = { type: 'success', text: 'Změny v akci byly úspěšně uloženy. ✏️' };
         res.redirect('/events');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při ukládání úprav akce.');
+        req.session.notification = { type: 'error', text: 'Chyba při ukládání úprav akce.' };
+        res.redirect('/events');
     }
 };
 
@@ -107,14 +120,15 @@ exports.deleteEvent = async (req, res) => {
     try {
         const eventId = req.params.id;
 
-        
         await Event.findByIdAndDelete(eventId);
-
         await Attendance.deleteMany({ event: eventId });
 
+       
+        req.session.notification = { type: 'info', text: 'Akce byla úspěšně odstraněna ze systému. 🗑️' };
         res.redirect('/events');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Chyba při mazání akce.');
+        req.session.notification = { type: 'error', text: 'Chyba při mazání akce.' };
+        res.redirect('/events');
     }
 };

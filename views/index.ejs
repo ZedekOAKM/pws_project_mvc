@@ -3,21 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventZone</title>
+    <title>EventZone | Najdi svůj příští zážitek</title>
 </head>
-<body>
+<body style="background-color: #0c0c0c; color: #fff; font-family: sans-serif; margin: 0;">
+
     <%- include('partials/navbar') %>
 
-    <div style="padding: 60px 20px; text-align: center; max-width: 800px; margin: 0 auto;">
-        <h1 style="font-size: 50px; color: #deff9a; margin-bottom: 20px;">Najdi svůj příští zážitek 🚀</h1>
-        <p style="font-size: 20px; color: #a0a0a0; line-height: 1.6;">
-            Vítej na EventZone. Platformě pro objevování, plánování a správu nejlepších festivalů, koncertů a komunitních akcí v okolí.
+    <div style="max-width: 1000px; margin: 0 auto; padding: 100px 20px 60px 20px; text-align: center;">
+        <h1 style="color: #fff; font-size: 56px; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px;">
+            Najdi svůj příští <span style="color: #deff9a;">zážitek 🚀</span>
+        </h1>
+        <p style="color: #aaa; font-size: 19px; max-width: 650px; margin: 0 auto 40px auto; line-height: 1.6;">
+            Vítej na EventZone. Platformě pro objevování, plánování a správu nejlepších festivalů, koncertů a komunitních akcí ve tvém okolí.
         </p>
-        <div style="margin-top: 40px;">
-            <a href="/events" style="background-color: #deff9a; color: #121212; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; display: inline-block; transition: transform 0.2s;">
-                Prohlížet akce
-            </a>
+        
+        <a href="/events" style="display: inline-block; background-color: #deff9a; color: #121212; padding: 15px 35px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(222,255,154,0.2); transition: transform 0.2s;">
+            Prohlížet akce
+        </a>
+    </div>
+
+    <div style="max-width: 1000px; margin: 0 auto 80px auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
+        <div style="background: #161616; border: 1px solid #222; border-radius: 12px; padding: 25px; flex: 1; min-width: 250px; text-align: center;">
+            <div style="font-size: 36px; font-weight: bold; color: #ffca28; margin-bottom: 5px;">100%</div>
+            <div style="color: #888; font-size: 14px; uppercase; letter-spacing: 1px;">Dostupné online rezervace</div>
+        </div>
+        <div style="background: #161616; border: 1px solid #222; border-radius: 12px; padding: 25px; flex: 1; min-width: 250px; text-align: center;">
+            <div style="font-size: 36px; font-weight: bold; color: #deff9a; margin-bottom: 5px;">Top lokality</div>
+            <div style="color: #888; font-size: 14px; uppercase; letter-spacing: 1px;">Kluby, haly i open-airy</div>
+        </div>
+        <div style="background: #161616; border: 1px solid #222; border-radius: 12px; padding: 25px; flex: 1; min-width: 250px; text-align: center;">
+            <div style="font-size: 36px; font-weight: bold; color: #fff; margin-bottom: 5px;">Rychlý přehled</div>
+            <div style="color: #888; font-size: 14px; uppercase; letter-spacing: 1px;">Správa profilu a rolí</div>
         </div>
     </div>
+
+    <div style="background-color: #111; border-top: 1px solid #222; padding: 60px 0;">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="color: #fff; text-align: center; font-size: 28px; margin-bottom: 40px;">Co na EventZone najdeš?</h2>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                <div style="flex: 1; min-width: 280px;">
+                    <h3 style="color: #deff9a; font-size: 18px; margin-bottom: 10px;">📅 Aktuální kalendář</h3>
+                    <p style="color: #888; font-size: 14px; line-height: 1.5; margin: 0;">Všechny plánované akce přehledně na jednom místě. Už ti neuteče žádný koncert ani festival.</p>
+                </div>
+                <div style="flex: 1; min-width: 280px;">
+                    <h3 style="color: #deff9a; font-size: 18px; margin-bottom: 10px;">📍 Prověřená místa</h3>
+                    <p style="color: #888; font-size: 14px; line-height: 1.5; margin: 0;">Detailní informace o kapacitách a adresách jednotlivých hal, klubů nebo kulturních domů.</p>
+                </div>
+                <div style="flex: 1; min-width: 280px;">
+                    <h3 style="color: #deff9a; font-size: 18px; margin-bottom: 10px;">🛡️ Bezpečné rezervace</h3>
+                    <p style="color: #888; font-size: 14px; line-height: 1.5; margin: 0;">Jedním kliknutím se přihlásíš na akci. Systém hlídá maximální kapacitu za tebe.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 40px 20px; color: #444; font-size: 13px; border-top: 1px solid #1a1a1a;">
+        © 2026 EventZone. Školní projekt pro předmět PWS. Všechna práva vyhrazena.
+    </div>
+
 </body>
 </html>

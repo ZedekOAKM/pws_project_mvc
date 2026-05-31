@@ -1,11 +1,9 @@
 const User = require('../models/User'); 
 const bcrypt = require('bcryptjs'); // knihovna sifrovani hesel
 
-
 exports.getRegister = (req, res) => {
     res.render('register'); 
 };
-
 
 exports.postRegister = async (req, res) => {
     try {
@@ -13,7 +11,8 @@ exports.postRegister = async (req, res) => {
 
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
         if (existingUser) {
-            return res.status(400).send('Uživatel s tímto jménem nebo emailem již existuje.');
+            req.session.notification = { type: 'error', text: 'Uživatel s tímto jménem nebo e-mailem již existuje. 👤' };
+            return res.redirect('/register');
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -27,11 +26,14 @@ exports.postRegister = async (req, res) => {
 
         await newUser.save(); 
         
+        // Úspěšná registrace
+        req.session.notification = { type: 'success', text: 'Účet úspěšně vytvořen! Můžeš se přihlásit. 🎉' };
         res.redirect('/login');
 
     } catch (error) {
         console.error(error);
-        res.status(500).send('Nastala chyba při registraci.');
+        req.session.notification = { type: 'error', text: 'Nastala chyba při registraci.' };
+        res.redirect('/register');
     }
 };
 
@@ -45,12 +47,14 @@ exports.postLogin = async (req, res) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).send('Nesprávný email nebo heslo.');
+            req.session.notification = { type: 'error', text: 'Nesprávný e-mail nebo heslo. 🔑' };
+            return res.redirect('/login');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).send('Nesprávný email nebo heslo.');
+            req.session.notification = { type: 'error', text: 'Nesprávný e-mail nebo heslo. 🔑' };
+            return res.redirect('/login');
         }
 
         req.session.user = {
@@ -59,18 +63,23 @@ exports.postLogin = async (req, res) => {
             role: user.role
         };
 
+        // Úspěšné přihlášení
+        req.session.notification = { type: 'success', text: `Vítej zpět, ${user.username}! 👋` };
         res.redirect('/');
 
     } catch (error) {
         console.error(error);
-        res.status(500).send('Nastala chyba při přihlašování.');
+        req.session.notification = { type: 'error', text: 'Nastala chyba při přihlašování.' };
+        res.redirect('/login');
     }
 };
 
 exports.logout = (req, res) => {
+    
     req.session.destroy((err) => {
         if (err) {
-            return res.status(500).send('Chyba při odhlašování.');
+            console.error(err);
+            return res.redirect('/');
         }
         res.redirect('/');
     });

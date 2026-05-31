@@ -40,6 +40,12 @@ app.use((req, res, next) => {
     next(); 
 });
 
+// notifikace
+app.use((req, res, next) => {
+    res.locals.notification = req.session.notification || null;
+    delete req.session.notification;
+    next();
+});
 
 
 
