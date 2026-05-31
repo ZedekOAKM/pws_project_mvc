@@ -12,8 +12,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px;">
             <h1 style="color: #deff9a; margin: 0; font-size: 32px; letter-spacing: 1px;">Místa konání akcí</h1>
             
-            <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
-                <a href="/add-location" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
+            <% if (locals.user && (user.role === 'admin' || user.role === 'organizator')) { %>
+                <a href="/locations/add" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
                     + Nové místo
                 </a>
             <% } %>
@@ -45,16 +45,16 @@
                             </div>
                         </div>
 
-                        <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
+                        <% if (locals.user && (user.role === 'admin' || user.role === 'organizator')) { %>
                             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #333; display: flex; gap: 10px;">
                                 
                                 <a href="/locations/<%= location._id %>/edit" style="flex: 1; text-align: center; background-color: #ffca28; color: #121212; text-decoration: none; padding: 8px 0; border-radius: 6px; font-weight: bold; font-size: 13px;">
-                                    ✏ Upravit
+                                    ✏️ Upravit
                                 </a>
 
                                 <form action="/locations/<%= location._id %>/delete" method="POST" style="flex: 1; margin: 0;" onsubmit="return confirm('⚠️ POZOR: Smazáním tohoto místa automaticky smažete i všechny akce, které se zde konají, včetně jejich účastníků! Chcete pokračovat?');">
                                     <button type="submit" style="width: 100%; background-color: #b71c1c; color: white; border: none; padding: 8px 0; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">
-                                        🗑 Smazat
+                                        🗑️ Smazat
                                     </button>
                                 </form>
 

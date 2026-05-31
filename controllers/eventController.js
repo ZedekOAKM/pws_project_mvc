@@ -20,7 +20,7 @@ exports.postAddEvent = async (req, res) => {
     try {
         const { title, description, date, maxAttendees, location } = req.body;
         
-        let imagePath = '/uploads/default-poster.jpg'; // Výchozí plakát, pokud žádný nenahrají
+        let imagePath = '/uploads/default-poster.jpg';
         if (req.file) {
             imagePath = `/uploads/${req.file.filename}`;
         }
@@ -32,13 +32,13 @@ exports.postAddEvent = async (req, res) => {
             maxAttendees,
             location,
             image: imagePath,
-            organizer: req.user._id // Nastavíme přihlášeného uživatele jako organizátora
+            // === OPRAVA TADY: Čteme z req.session.user.id ===
+            organizer: req.session.user.id 
         });
 
         await newEvent.save();
         
-        
-        req.session.notification = { type: 'success', text: 'Nvá akce byla úspěšně publikována! 🚀' };
+        req.session.notification = { type: 'success', text: 'Nová akce byla úspěšně publikována! 🚀' };
         res.redirect('/events');
     } catch (error) {
         console.error(error);

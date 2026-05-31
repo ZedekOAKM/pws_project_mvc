@@ -2,6 +2,18 @@ const Location = require('../models/Location');
 const Event = require('../models/Event');
 const Attendance = require('../models/Attendance');
 
+
+// Zobrazení formuláře pro přidání nového místa
+exports.getAddLocation = (req, res) => {
+    try {
+        res.render('add-location'); // vykreslí soubor views/add-location.ejs
+    } catch (error) {
+        console.error(error);
+        req.session.notification = { type: 'error', text: 'Chyba při načítání formuláře.' };
+        res.redirect('/locations');
+    }
+};
+
 // ====== R = READ (Zobrazení všech míst konání) ======
 exports.getLocations = async (req, res) => {
     try {

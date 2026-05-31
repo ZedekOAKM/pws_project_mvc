@@ -1,18 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const locationController = require('../controllers/locationController');
-const { protect, restrictTo } = require('../middlewares/authMiddleware');
 
-router.get('/locations', locationController.getLocations);
+// Zobrazení všech míst
+router.get('/', locationController.getLocations);
 
-// Přidání místa
-router.post('/add-location', protect, restrictTo('organizator', 'admin'), locationController.postAddLocation);
+// Formulář pro přidání místa (ZDE BYLA CHYBA - odkaz na novou funkci)
+router.get('/add', locationController.getAddLocation); 
 
+// Zpracování formuláře pro přidání místa
+router.post('/add', locationController.postAddLocation);
 
-router.get('/locations/:id/edit', protect, restrictTo('admin', 'organizator'), locationController.getEditLocation);
-router.post('/locations/:id/edit', protect, restrictTo('admin', 'organizator'), locationController.postEditLocation);
+// Formulář pro editaci místa
+router.get('/:id/edit', locationController.getEditLocation);
 
-// Smazání místa konání
-router.post('/locations/:id/delete', protect, restrictTo('admin', 'organizator'), locationController.deleteLocation);
+// Zpracování editace místa
+router.post('/:id/edit', locationController.postEditLocation);
+
+// Mazání místa
+router.post('/:id/delete', locationController.deleteLocation);
 
 module.exports = router;

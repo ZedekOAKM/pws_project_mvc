@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seznam akcí | EventZone</title>
 </head>
-<body>
+<body style="background-color: #0c0c0c; color: #fff; font-family: sans-serif; margin: 0;">
     <%- include('partials/navbar') %>
 
     <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
@@ -13,7 +13,7 @@
             <h1 style="color: #deff9a; margin: 0; font-size: 32px; letter-spacing: 1px;">Nadcházející akce</h1>
             
             <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
-                <a href="/add-event" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
+                <a href="/events/add" style="background-color: #ffca28; color: #121212; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
                     + Vytvořit akci
                 </a>
             <% } %>
@@ -65,30 +65,21 @@
                                 <p style="font-size: 13px; color: #888; text-align: center; margin: 0; padding: 5px 0;">
                                     Pro přihlášení se musíte <a href="/login" style="color: #deff9a; text-decoration: none;">přihlásit</a>.
                                 </p>
-
-
-
-            
                             <% } %>
 
+                            <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
+                                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed #333; display: flex; gap: 10px;">
+                                    <a href="/events/<%= event._id %>/edit" style="flex: 1; text-align: center; background-color: #ffca28; color: #121212; text-decoration: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 13px;">
+                                        ✏ Upravit
+                                    </a>
 
-
-<% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
-    <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed #333; display: flex; gap: 10px;">
-        
-        <a href="/events/<%= event._id %>/edit" style="flex: 1; text-align: center; background-color: #ffca28; color: #121212; text-decoration: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 13px;">
-            ✏ Upravit
-        </a>
-
-        <form action="/events/<%= event._id %>/delete" method="POST" style="flex: 1;" onsubmit="return confirm('Opravdu chcete tuto akci smazat? Tím smažete i všechny přihlášené účastníky.');">
-            <button type="submit" style="width: 100%; background-color: #b71c1c; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">
-                🗑 Smazat
-            </button>
-        </form>
-
-    </div>
-<% } %>
-
+                                    <form action="/events/<%= event._id %>/delete" method="POST" style="flex: 1;" onsubmit="return confirm('Opravdu chcete tuto akci smazat? Tím smažete i všechny přihlášené účastníky.');">
+                                        <button type="submit" style="width: 100%; background-color: #b71c1c; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">
+                                            🗑 Smazat
+                                        </button>
+                                    </form>
+                                </div>
+                            <% } %>
                         </div>
 
                     </div>

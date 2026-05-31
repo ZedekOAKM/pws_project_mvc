@@ -66,68 +66,65 @@
         <a href="/events">Akce</a>
         <a href="/locations">Místa konání</a>
 
-        <% if (user && (user.role === 'admin' || user.role === 'organizator')) { %>
-            <a href="/add-event" style="color: #ffca28;">+ Vytvořit akci</a>
-            <a href="/add-location" style="color: #ffca28;">+ Přidat místo</a>
+        <% if (locals.user && (user.role === 'admin' || user.role === 'organizator')) { %>
+            <a href="/events/add" style="color: #ffca28;">+ Vytvořit akci</a>
+            <a href="/locations/add" style="color: #ffca28;">+ Přidat místo</a>
         <% } %>
 
-        <% if (user) { %>
+        <% if (locals.user) { %>
             <span class="user-info">Uživatel: <strong><%= user.username %></strong> (<%= user.role %>)</span>
+            
+            <% if (user.role === 'admin') { %>
+                <a href="/admin/users" style="color: #ffca28; text-decoration: none; font-weight: bold;">
+                    ⚙️ Správa uživatelů
+                </a>
+            <% } %>
+
             <a href="/logout">Odhlásit se</a>
         <% } else { %>
             <a href="/login">Přihlášení</a>
             <a href="/register" class="btn-auth">Registrace</a>
         <% } %>
 
-  <% if (user && user.role === 'admin') { %>
-    <a href="/admin/users" style="color: #ffca28; text-decoration: none; font-weight: bold; margin-right: 15px;">
-        ⚙️ Správa uživatelů
-    </a>
-<% } %>
+        <% if (locals.notification) { %>
+            <div id="toast-notification" style="
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+                background: <%= notification.type === 'success' ? '#1b5e20' : (notification.type === 'error' ? '#b71c1c' : '#212121') %>;
+                color: #fff;
+                border: 1px solid <%= notification.type === 'success' ? '#deff9a' : (notification.type === 'error' ? '#ff8a80' : '#444') %>;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+                z-index: 1000;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease-out;
+            ">
+                <%= notification.text %>
+            </div>
 
+            <script>
+                setTimeout(() => {
+                    const toast = document.getElementById('toast-notification');
+                    if (toast) {
+                        toast.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                        toast.style.opacity = '0';
+                        toast.style.transform = 'translateY(20px)';
+                        setTimeout(() => toast.remove(), 500);
+                    }
+                }, 4000);
+            </script>
 
-
-<% if (locals.notification) { %>
-    <div id="toast-notification" style="
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        background: <%= notification.type === 'success' ? '#1b5e20' : (notification.type === 'error' ? '#b71c1c' : '#212121') %>;
-        color: #fff;
-        border: 1px solid <%= notification.type === 'success' ? '#deff9a' : (notification.type === 'error' ? '#ff8a80' : '#444') %>;
-        padding: 16px 24px;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        z-index: 1000;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        animation: slideIn 0.3s ease-out;
-    ">
-        <%= notification.text %>
-    </div>
-
-    <script>
-        // Bublina po 4 vteřinách plynule zmizí
-        setTimeout(() => {
-            const toast = document.getElementById('toast-notification');
-            if (toast) {
-                toast.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(20px)';
-                setTimeout(() => toast.remove(), 500);
-            }
-        }, 4000);
-    </script>
-
-    <style>
-        @keyframes slideIn {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    </style>
-<% } %>
-
+            <style>
+                @keyframes slideIn {
+                    from { transform: translateY(50px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+            </style>
+        <% } %>
     </div>
 </nav>

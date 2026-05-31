@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vytvořit akci | EventZone</title>
 </head>
-<body>
+<body style="background-color: #0c0c0c; color: #fff; font-family: sans-serif; margin: 0;">
     <%- include('partials/navbar') %>
 
     <div style="max-width: 600px; margin: 60px auto; padding: 35px; background: #1a1a1a; border-radius: 12px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
@@ -15,7 +15,7 @@
             <p style="color: #666; font-size: 14px; margin-top: 5px;">Naplánujte festival, koncert nebo párty a nahrajte plakát.</p>
         </div>
 
-        <form action="/add-event" method="POST" enctype="multipart/form-data">
+        <form action="/events/add" method="POST" enctype="multipart/form-data">
             <div style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 8px; color: #b0b0b0; font-size: 14px;">Název akce</label>
                 <input type="text" name="title" placeholder="Např. Summer Music Festival 2026" required 
@@ -51,10 +51,21 @@
                 </select>
             </div>
 
-            <div style="margin-bottom: 35px; background: #222; padding: 15px; border-radius: 6px; border: 1px dashed #444;">
-                <label style="display: block; margin-bottom: 8px; color: #b0b0b0; font-size: 14px; font-weight: bold;">Plakát (obrázek)</label>
-                <input type="file" name="image" accept="image/*" 
-                       style="color: #888; font-size: 14px; width: 100%;">
+            <div style="margin-bottom: 35px; background: #222; padding: 20px; border-radius: 6px; border: 1px dashed #444; text-align: center;">
+                <label style="display: block; margin-bottom: 4px; color: #b0b0b0; font-size: 14px; font-weight: bold;">Plakát akce</label>
+                
+                <p style="color: #666; font-size: 13px; margin-top: 0; margin-bottom: 15px; line-height: 1.4;">
+                    Nahrajte úvodní grafiku nebo plakát, který se zobrazí na hlavní kartě této akce. <br>
+                    Podporovány jsou běžné formáty (JPG, PNG).
+                </p>
+                
+                <input type="file" name="image" id="file-upload" accept="image/*" style="display: none;" onchange="updateFileName()">
+                
+                <label for="file-upload" style="display: inline-block; padding: 10px 20px; background: #2a2a2a; border: 1px solid #555; border-radius: 6px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+                    📁 Vybrat obrázek
+                </label>
+                
+                <div id="file-name" style="margin-top: 10px; color: #888; font-size: 13px;">Žádný soubor nevybrán</div>
             </div>
 
             <button type="submit" style="width: 100%; padding: 14px; background: #deff9a; color: #121212; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; transition: background 0.2s;">
@@ -62,5 +73,19 @@
             </button>
         </form>
     </div>
+
+    <script>
+        function updateFileName() {
+            const input = document.getElementById('file-upload');
+            const output = document.getElementById('file-name');
+            if (input.files && input.files.length > 0) {
+                output.innerText = 'Vybráno: ' + input.files[0].name;
+                output.style.color = '#deff9a';
+            } else {
+                output.innerText = 'Žádný soubor nevybrán';
+                output.style.color = '#888';
+            }
+        }
+    </script>
 </body>
 </html>
